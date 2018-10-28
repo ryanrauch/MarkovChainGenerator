@@ -21,7 +21,6 @@
     <PackageReference Include="Xamarin.Auth" Version="1.6.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
     <Folder Include="Services\Interfaces\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\" />

@@ -6,6 +6,7 @@ using MarkovChainGenerator.Services.Interfaces;
 using LinqToTwitter;
 using System.Collections.Generic;
 using MarkovChainGenerator.Models;
+using Markov;
 
 namespace MarkovChainGenerator.ViewModels
 {
@@ -72,6 +73,25 @@ namespace MarkovChainGenerator.ViewModels
                     })
                    .ToList();
             }
+            var chain = new MarkovChain<string>(2);
+            foreach(var t in Tweets)
+            {
+                chain.Add(t.Text.Split(' '), 1);
+                //foreach(var s in t.Text.Split(' '))
+                //{
+                //    chain.Add(s, 1);
+                //}
+            }
+            String testOutput = String.Empty;
+            var rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                //var word = new string(chain.Chain(rand).ToArray());
+                //testOutput += " " + word;
+                var sentence = string.Join(" ", chain.Chain(rand));
+                Tweets.Add(new Tweet() { Text = sentence });
+            }
+            //Tweets.Add(new Tweet() { Text = testOutput });
         }
 
         //public void InitAuthentication()
