@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using MarkovChainGenerator.Services.Interfaces;
@@ -36,12 +37,47 @@ namespace MarkovChainGenerator.ViewModels
             }
         }
 
-        public override Task OnAppearingAsync()
+        public override async Task OnAppearingAsync()
         {
             //throw new NotImplementedException();
-            return Task.CompletedTask;
+
+            //InitAuthentication();
+            await InitTweetViewModel();
+
+            //await RefreshAsync();
+            //return Task.CompletedTask;
         }
 
+        public async Task InitTweetViewModel()
+        {
+            //var authSvc = DependencyService.Get<ILinqToTwitterAuthorizer>();
+            _auth = _linqToTwitterAuthorizer.GetAuthorizer(consumerKey, consumerSecret);
+
+            await _auth.AuthorizeAsync();
+
+            //await RefreshAsync();
+            using (var ctx = new TwitterContext(_auth))
+            {
+                Search searchResponse = await
+                    (from search in ctx.Search
+                     where search.Type == SearchType.Search &&
+                           //search.Query == "\"from:SouprIvan\"" 
+                           search.Query == "\"Twitter\""
+                     select search)
+                    .SingleAsync();
+
+                Tweets =
+                    (from tweet in searchResponse.Statuses
+                     select new Tweet
+                     {
+                         StatusID = tweet.StatusID,
+                         ScreenName = tweet.User.ScreenNameResponse,
+                         Text = tweet.Text,
+                         ImageUrl = tweet.User.ProfileImageUrl
+                     })
+                    .ToList();
+            }
+        }
         public void InitAuthentication()
         {
             if (_userSecrets != null) return;
@@ -71,21 +107,25 @@ namespace MarkovChainGenerator.ViewModels
 
         private async Task RefreshAsync()
         {
-            await _auth.AuthorizeAsync();
+            //await _auth.AuthorizeAsync();
             using (var ctx = new TwitterContext(_auth))
             {
-                var cs = await ctx.Status.ToListAsync();
-                Tweets = new List<Tweet>();
-                foreach(var s in cs)
+                if(ctx.Status != null)
                 {
-                    Tweet t = new Tweet()
+                    var cs = await ctx.Status.ToListAsync();
+                    Tweets = new List<Tweet>();
+                    foreach (var s in cs)
                     {
-                        StatusID = s.StatusID,
-                        ScreenName = s.User.ScreenName,
-                        Text = s.Text
-                    };
-                    Tweets.Add(t);
+                        Tweet t = new Tweet()
+                        {
+                            StatusID = s.StatusID,
+                            ScreenName = s.User.ScreenName,
+                            Text = s.Text
+                        };
+                        Tweets.Add(t);
+                    }
                 }
+
                 //var srch = await
                 //      (from tweet in ctx.Status 
                 //       where tweet.Type == StatusType.Home

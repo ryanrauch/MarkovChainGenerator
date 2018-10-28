@@ -40,6 +40,8 @@ namespace MarkovChainGenerator
             //containerBuilder.RegisterType<UnAuthenticatedRequestService>().As<IRequestService>().SingleInstance();
             ////containerBuilder.RegisterType<BlobStorageService>().As<IBlobStorageService>().SingleInstance();
             containerBuilder.RegisterType<SinglePageNavigationService>().As<INavigationService>().SingleInstance();
+            containerBuilder.RegisterType<LoginStore>().As<ILoginStore>().SingleInstance();
+            containerBuilder.RegisterType<LinqToTwitterAuthorizer>().As<ILinqToTwitterAuthorizer>().SingleInstance();
 
             //containerBuilder.RegisterInstance(DependencyService.Get<IWeightScale>()).AsImplementedInterfaces().SingleInstance();
             //containerBuilder.RegisterInstance(DependencyService.Get<IWeightScaleCommunicationService>()).AsImplementedInterfaces().SingleInstance();
