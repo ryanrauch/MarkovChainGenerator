@@ -22,7 +22,7 @@ namespace MarkovChainGenerator.ViewModels
         }
 
         private IAuthorizer _auth;
-        private UserSecrets _userSecrets;
+        //private UserSecrets _userSecrets;
         private string consumerKey = Secrets.TwitterAPIKey;
         private string consumerSecret = Secrets.TwitterAPISecretKey;
 
@@ -39,107 +39,103 @@ namespace MarkovChainGenerator.ViewModels
 
         public override async Task OnAppearingAsync()
         {
-            //throw new NotImplementedException();
-
-            //InitAuthentication();
             await InitTweetViewModel();
-
-            //await RefreshAsync();
-            //return Task.CompletedTask;
         }
 
         public async Task InitTweetViewModel()
         {
-            //var authSvc = DependencyService.Get<ILinqToTwitterAuthorizer>();
             _auth = _linqToTwitterAuthorizer.GetAuthorizer(consumerKey, consumerSecret);
-
             await _auth.AuthorizeAsync();
 
-            //await RefreshAsync();
+            //ht--tps://github.com/JoeMayo/LinqToTwitter/wiki/Querying-the-User-Timeline
             using (var ctx = new TwitterContext(_auth))
             {
-                Search searchResponse = await
-                    (from search in ctx.Search
-                     where search.Type == SearchType.Search &&
-                           //search.Query == "\"from:SouprIvan\"" 
-                           search.Query == "\"Twitter\""
-                     select search)
-                    .SingleAsync();
+                List<Status> tweets =
+                await
+                (from tweet in ctx.Status
+                 where tweet.Type == StatusType.User &&
+                       tweet.ScreenName == "realDonaldTrump" &&
+                       tweet.Count == 200 /*MaxTweetsToReturn*/ &&
+                       tweet.SinceID == 1/*sinceID*/ &&
+                       tweet.TweetMode == TweetMode.Extended
+                 select tweet)
+                .ToListAsync();
 
                 Tweets =
-                    (from tweet in searchResponse.Statuses
-                     select new Tweet
-                     {
-                         StatusID = tweet.StatusID,
-                         ScreenName = tweet.User.ScreenNameResponse,
-                         Text = tweet.Text,
-                         ImageUrl = tweet.User.ProfileImageUrl
-                     })
-                    .ToList();
-            }
-        }
-        public void InitAuthentication()
-        {
-            if (_userSecrets != null) return;
-            var oauth = new Xamarin.Auth.OAuth1Authenticator(consumerKey, consumerSecret,
-                  new Uri("https://api.twitter.com/oauth/request_token"),
-                   new Uri("https://api.twitter.com/oauth/authorize"),
-                   new Uri("https://api.twitter.com/oauth/access_token"),
-                   new Uri("http://127.0.0.1/"));
-            oauth.Completed += Oauth_Completed;
-            var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
-            presenter.Login(oauth);
-        }
-
-        private async void Oauth_Completed(object sender, Xamarin.Auth.AuthenticatorCompletedEventArgs e)
-        {
-            _auth = _linqToTwitterAuthorizer.GetAuthorizer(consumerKey,
-                    consumerSecret,
-                    e.Account.Properties["oauth_token"],
-                    e.Account.Properties["oauth_token_secret"]);
-            await _loginStoreService.SetSecretsAsync(
-                 e.Account.Properties["oauth_token"],
-                 e.Account.Properties["oauth_token_secret"]
-             );
-            //RefreshTimeline.ChangeCanExecute();
-            //RefreshTimeline.Execute(null);
-        }
-
-        private async Task RefreshAsync()
-        {
-            //await _auth.AuthorizeAsync();
-            using (var ctx = new TwitterContext(_auth))
-            {
-                if(ctx.Status != null)
-                {
-                    var cs = await ctx.Status.ToListAsync();
-                    Tweets = new List<Tweet>();
-                    foreach (var s in cs)
+                   (from tweet in tweets
+                    select new Tweet
                     {
-                        Tweet t = new Tweet()
-                        {
-                            StatusID = s.StatusID,
-                            ScreenName = s.User.ScreenName,
-                            Text = s.Text
-                        };
-                        Tweets.Add(t);
-                    }
-                }
-
-                //var srch = await
-                //      (from tweet in ctx.Status 
-                //       where tweet.Type == StatusType.Home
-                //       select new Tweet()
-                //       {
-                //           StatusID = tweet.StatusID,
-                //           ScreenName = tweet.User.ScreenNameResponse,
-                //           Text = tweet.Text,
-                //           ImageUrl = tweet.RetweetedStatus != null && tweet.RetweetedStatus.User != null ?
-                //                      tweet.RetweetedStatus.User.ProfileImageUrl.Replace("http://", "https://") : tweet.User.ProfileImageUrl
-                //       }).ToListAsync();
-                //Tweets = new List<Tweet>(srch);
+                        StatusID = tweet.StatusID,
+                        ScreenName = tweet.User.ScreenNameResponse,
+                        Text = tweet.FullText,
+                        ImageUrl = tweet.User.ProfileImageUrl
+                    })
+                   .ToList();
             }
         }
+
+        //public void InitAuthentication()
+        //{
+        //    if (_userSecrets != null) return;
+        //    var oauth = new Xamarin.Auth.OAuth1Authenticator(consumerKey, consumerSecret,
+        //          new Uri("https://api.twitter.com/oauth/request_token"),
+        //           new Uri("https://api.twitter.com/oauth/authorize"),
+        //           new Uri("https://api.twitter.com/oauth/access_token"),
+        //           new Uri("http://127.0.0.1/"));
+        //    oauth.Completed += Oauth_Completed;
+        //    var presenter = new Xamarin.Auth.Presenters.OAuthLoginPresenter();
+        //    presenter.Login(oauth);
+        //}
+
+        //private async void Oauth_Completed(object sender, Xamarin.Auth.AuthenticatorCompletedEventArgs e)
+        //{
+        //    _auth = _linqToTwitterAuthorizer.GetAuthorizer(consumerKey,
+        //            consumerSecret,
+        //            e.Account.Properties["oauth_token"],
+        //            e.Account.Properties["oauth_token_secret"]);
+        //    await _loginStoreService.SetSecretsAsync(
+        //         e.Account.Properties["oauth_token"],
+        //         e.Account.Properties["oauth_token_secret"]
+        //     );
+        //    //RefreshTimeline.ChangeCanExecute();
+        //    //RefreshTimeline.Execute(null);
+        //}
+
+        //private async Task RefreshAsync()
+        //{
+        //    //await _auth.AuthorizeAsync();
+        //    using (var ctx = new TwitterContext(_auth))
+        //    {
+        //        if(ctx.Status != null)
+        //        {
+        //            var cs = await ctx.Status.ToListAsync();
+        //            Tweets = new List<Tweet>();
+        //            foreach (var s in cs)
+        //            {
+        //                Tweet t = new Tweet()
+        //                {
+        //                    StatusID = s.StatusID,
+        //                    ScreenName = s.User.ScreenName,
+        //                    Text = s.Text
+        //                };
+        //                Tweets.Add(t);
+        //            }
+        //        }
+
+        //        //var srch = await
+        //        //      (from tweet in ctx.Status 
+        //        //       where tweet.Type == StatusType.Home
+        //        //       select new Tweet()
+        //        //       {
+        //        //           StatusID = tweet.StatusID,
+        //        //           ScreenName = tweet.User.ScreenNameResponse,
+        //        //           Text = tweet.Text,
+        //        //           ImageUrl = tweet.RetweetedStatus != null && tweet.RetweetedStatus.User != null ?
+        //        //                      tweet.RetweetedStatus.User.ProfileImageUrl.Replace("http://", "https://") : tweet.User.ProfileImageUrl
+        //        //       }).ToListAsync();
+        //        //Tweets = new List<Tweet>(srch);
+        //    }
+        //}
 
         private Command _refreshTimeline;
         public Command RefreshTimeline
@@ -153,7 +149,7 @@ namespace MarkovChainGenerator.ViewModels
                         IsRefreshing = true;
                         try
                         {
-                            await RefreshAsync();
+                            //await RefreshAsync();
                         }
                         catch (Exception ex)
                         {
