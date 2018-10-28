@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<local:TestViewBase xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:local="clr-namespace:MarkovChainGenerator.Views.ContentPages"
+             x:Class="MarkovChainGenerator.Views.ContentPages.TestView">
+    <StackLayout Margin="5">
+        <ListView ItemsSource="{Binding Tweets}" 
+                  IsPullToRefreshEnabled="True" 
+                  RefreshCommand="{Binding RefreshTimeline}" 
+                  IsRefreshing="{Binding IsRefreshing}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ImageCell Text="{Binding Text}" 
+                               Detail="{Binding ScreenName}" 
+                               ImageSource="{Binding ImageUrl}"  />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!--<StackLayout Orientation="Horizontal" Margin="5" HorizontalOptions="FillAndExpand">
+            <Editor Text="{Binding NewTweetText}" HorizontalOptions="FillAndExpand" />
+            <Button Command="{Binding SendTweet}" Text="Send tweet" />
+        </StackLayout>-->
+    </StackLayout>
+</local:TestViewBase>

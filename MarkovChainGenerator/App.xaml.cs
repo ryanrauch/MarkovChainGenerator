@@ -1,4 +1,6 @@
 ﻿using System;
+using Autofac;
+using MarkovChainGenerator.Views.ContentPages;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -7,11 +9,14 @@ namespace MarkovChainGenerator
 {
     public partial class App : Application
     {
+        public static IContainer Container { get; set; }
+
         public App()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            Container = AutoFacContainerBuilder.CreateContainer();
+            //MainPage = new InitialView();
+            MainPage = new TestView();
         }
 
         protected override void OnStart()
