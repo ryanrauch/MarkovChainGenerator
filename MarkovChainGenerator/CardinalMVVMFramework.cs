@@ -28,7 +28,7 @@ namespace MarkovChainGenerator
         {
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterType<InitialViewModel>().SingleInstance();
-            //containerBuilder.RegisterType<RealTimeViewModel>().SingleInstance();
+            containerBuilder.RegisterType<TestViewModel>().SingleInstance();
             ////containerBuilder.RegisterType<InventoryViewModel>().SingleInstance();
             ////containerBuilder.RegisterType<InventoryCompletedViewModel>().SingleInstance();
             ////containerBuilder.RegisterType<SmartWatchViewModel>().SingleInstance();
