@@ -5,14 +5,21 @@
              x:Class="MarkovChainGenerator.Views.ContentPages.TestView">
     <StackLayout Margin="5">
         <ListView ItemsSource="{Binding Tweets}" 
+                  HasUnevenRows="True"
                   IsPullToRefreshEnabled="True" 
                   RefreshCommand="{Binding RefreshTimeline}" 
                   IsRefreshing="{Binding IsRefreshing}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ImageCell Text="{Binding Text}" 
+                    <ViewCell>
+                        <StackLayout>
+                            <Label Text="{Binding Text}" LineBreakMode="WordWrap"/>
+                        </StackLayout>
+                    </ViewCell>
+                    <!--<TextCell Text="{Binding Text}" />-->
+                    <!--<ImageCell Text="{Binding Text}" 
                                Detail="{Binding ScreenName}" 
-                               ImageSource="{Binding ImageUrl}"  />
+                               ImageSource="{Binding ImageUrl}"  />-->
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -73,7 +73,7 @@ namespace MarkovChainGenerator.ViewModels
                     })
                    .ToList();
             }
-            var chain = new MarkovChain<string>(2);
+            var chain = new MarkovChain<string>(1);
             foreach(var t in Tweets)
             {
                 chain.Add(t.Text.Split(' '), 1);
@@ -82,7 +82,8 @@ namespace MarkovChainGenerator.ViewModels
                 //    chain.Add(s, 1);
                 //}
             }
-            String testOutput = String.Empty;
+            Tweets.Add(new Tweet() { Text = "--------------" });
+            //String testOutput = String.Empty;
             var rand = new Random();
             for (int i = 0; i < 10; i++)
             {
