@@ -1,5 +1,172 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="MarkovChainGenerator.App">
+<Application xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:controls="clr-namespace:MarkovChainGenerator.Controls"
+             x:Class="MarkovChainGenerator.App">
     <Application.Resources>
+        <!-- Dark/Black Background -->
+        <Color x:Key="CardinalRedColor">#BA514B</Color>
+        <Color x:Key="CardinalRedDarkColor">#BA514B</Color>
+        <Color x:Key="CardinalRedLightColor">#FF6666</Color> 
+        <!-- old red-light color: #7D4140-->
+        <Color x:Key="CardinalBackgroundColor">#343434</Color>
+        <Color x:Key="CardinalBackgroundLightColor">#404040</Color>
+        <Color x:Key="CardinalHighlightColor">#FFFFFF</Color>
+        <Color x:Key="TransparentColor">#FFFFFF00</Color>
+
+        <!-- Fonts -->
+        <controls:OnCustomPlatform x:Key="HighlandGothicLightFLF"
+                        x:TypeArguments="x:String"
+                        iOS="highlandgothiclightflf"
+                        Android="highlandgothiclightflf.ttf#highlandgothiclightflf"
+                        UWP="Assets/highlandgothiclightflf.ttf#highlandgothiclightflf"/>
+
+        <controls:OnCustomPlatform x:Key="FontAwesomeRegular"
+                        x:TypeArguments="x:String"
+                        iOS="FontAwesome5FreeRegular"
+                        Android="fa-regular-400.ttf#Font Awesome 5 Free Regular" 
+                        UWP="Assets/fa-regular-400.ttf#Font Awesome 5 Free Regular"/>
+
+        <controls:OnCustomPlatform x:Key="FontAwesomeSolid"
+                        x:TypeArguments="x:String"
+                        iOS="FontAwesome5FreeSolid"
+                        Android="fa-solid-900.ttf#Font Awesome 5 Free Solid" 
+                        UWP="Assets/fa-solid-900.ttf#Font Awesome 5 Free Solid"/>
+
+
+        <!-- Font Sizes [H1-H9] -->
+        <controls:OnCustomPlatform x:Key="H9"
+                        x:TypeArguments="x:Double"
+                        iOS="9"
+                        Android="10"
+                        UWP="10"/>
+        <controls:OnCustomPlatform x:Key="H8"
+                        x:TypeArguments="x:Double"
+                        iOS="11"
+                        Android="12"
+                        UWP="12"/>
+        <controls:OnCustomPlatform x:Key="H7"
+                        x:TypeArguments="x:Double"
+                        iOS="12"
+                        Android="14"
+                        UWP="14"/>
+        <controls:OnCustomPlatform x:Key="H6"
+                        x:TypeArguments="x:Double"
+                        iOS="14"
+                        Android="16"
+                        UWP="16"/>
+        <controls:OnCustomPlatform x:Key="H5"
+                        x:TypeArguments="x:Double"
+                        iOS="16"
+                        Android="18"
+                        UWP="18"/>
+        <controls:OnCustomPlatform x:Key="H4"
+                        x:TypeArguments="x:Double"
+                        iOS="18"
+                        Android="20"
+                        UWP="20"/>
+        <controls:OnCustomPlatform x:Key="H3"
+                        x:TypeArguments="x:Double"
+                        iOS="20"
+                        Android="24"
+                        UWP="24"/>
+        <controls:OnCustomPlatform x:Key="H2"
+                      x:TypeArguments="x:Double"
+                      iOS="24"
+                      Android="32"
+                      UWP="32"/>
+        <controls:OnCustomPlatform x:Key="H1"
+                        x:TypeArguments="x:Double"
+                        iOS="32"
+                        Android="48"
+                        UWP="48"/>
+
+        <!--Label Styles-->
+        <Style x:Key="CardinalItemLabelStyle"
+                   TargetType="{x:Type Label}">
+            <Setter Property="LineBreakMode"
+                        Value="WordWrap"/>
+            <Setter Property="FontSize"
+                        Value="{StaticResource H4}"/>
+            <Setter Property="VerticalTextAlignment"
+                        Value="Start"/>
+            <Setter Property="HorizontalTextAlignment"
+                        Value="Center"/>
+            <Setter Property="TextColor"
+                        Value="{StaticResource CardinalRedColor}"/>
+        </Style>
+        <Style x:Key="CardinalItemLabelStyleAlt"
+                   TargetType="{x:Type Label}"
+                   BasedOn="{StaticResource CardinalItemLabelStyle}">
+            <Setter Property="TextColor"
+                        Value="{StaticResource CardinalRedColor}"/>
+        </Style>
+        <Style TargetType="{x:Type Label}"
+                   BasedOn="{StaticResource CardinalItemLabelStyle}">
+        </Style>
+
+        <!-- Button Styles -->
+        <Style x:Key="FontAwesomeSolidButtonStyle"
+                   TargetType="{x:Type Button}">
+            <Setter Property="FontFamily"
+                        Value="{StaticResource FontAwesomeSolid}"/>
+            <Setter Property="FontSize"
+                        Value="{StaticResource H3}"/>
+            <Setter Property="BackgroundColor"
+                        Value="{StaticResource CardinalRedColor}" />
+            <Setter Property="TextColor"
+                        Value="{StaticResource CardinalBackgroundColor}"/>
+        </Style>
+
+        <Style x:Key="CardinalItemButtonStyle"
+                   TargetType="{x:Type Button}">
+            <!--<Setter Property="FontFamily"
+                        Value="{StaticResource FontAwesomeSolid}"/>-->
+            <Setter Property="FontSize"
+                        Value="{StaticResource H4}"/>
+            <Setter Property="BackgroundColor"
+                        Value="{StaticResource CardinalRedColor}" />
+            <Setter Property="TextColor"
+                        Value="{StaticResource CardinalBackgroundColor}"/>
+        </Style>
+
+        <Style x:Key="CardinalItemButtonStyleAlt"
+                   TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource CardinalItemButtonStyle}">
+            <Setter Property="BackgroundColor"
+                        Value="{StaticResource CardinalRedColor}" />
+            <Setter Property="TextColor"
+                        Value="{StaticResource CardinalBackgroundLightColor}"/>
+        </Style>
+
+        <!--Default Button Style-->
+        <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource CardinalItemButtonStyle}">
+            <Setter Property="CornerRadius"
+                        Value="10"/>
+        </Style>
+
+        <!--ContentPageGrid-Style-->
+        <Style x:Key="GridContentPageStyle"
+                   TargetType="{x:Type Grid}">
+            <!--<Setter Property="Padding"
+                        Value="10,10,10,10"/>-->
+            <Setter Property="RowSpacing"
+                        Value="0"/>
+            <Setter Property="ColumnSpacing"
+                        Value="0"/>
+            <Setter Property="BackgroundColor"
+                        Value="{StaticResource CardinalBackgroundColor}"/>
+        </Style>
+
+        <!-- Grid - set default RowSpacing/ColumnSpacing to zero-->
+        <Style TargetType="{x:Type Grid}">
+            <Setter Property="RowSpacing"
+                        Value="0"/>
+            <Setter Property="ColumnSpacing"
+                        Value="0"/>
+            <Setter Property="Padding"
+                        Value="0"/>
+        </Style>
     </Application.Resources>
 </Application>

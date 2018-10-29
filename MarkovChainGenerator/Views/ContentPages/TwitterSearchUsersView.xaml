@@ -4,10 +4,19 @@
              xmlns:local="clr-namespace:MarkovChainGenerator.Views.ContentPages"
              x:Class="MarkovChainGenerator.Views.ContentPages.TwitterSearchUsersView">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout BackgroundColor="{StaticResource CardinalHighlightColor}">
             <Label Text="Search Twitter Users... Not implemented yet"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <!--<Label Grid.Row="2" 
+                   Grid.Column="0"
+                   Grid.ColumnSpan="3"
+                   HorizontalTextAlignment="Center" 
+                   VerticalTextAlignment="Center"
+                   TextColor="{StaticResource CardinalHighlightColor}"
+                   BackgroundColor="{StaticResource CardinalBackgroundLightColor}"
+                   Text="{Binding SelectedStockItem.Description}"
+                   FontSize="{StaticResource H3}"/>-->
         </StackLayout>
     </ContentPage.Content>
 </local:TwitterSearchUsersViewBase>

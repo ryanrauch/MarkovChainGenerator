@@ -26,6 +26,12 @@
 	<string>MarkovChainGenerator</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.ryanrauch.Markov-Chain-Generator</string>
+  <key>UIAppFonts</key>
+	<array>
+		<string>highlandgothiclightflf.ttf</string>
+		<string>fa-regular-400.ttf</string>
+		<string>fa-solid-900.ttf</string>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>

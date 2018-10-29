@@ -15,14 +15,17 @@ namespace MarkovChainGenerator.ViewModels
     public class TwitterFeedViewModel : ViewModelBase
     {
         private readonly ILoginStore _loginStoreService;
-        private readonly ILinqToTwitterAuthorizer _linqToTwitterAuthorizer; 
+        private readonly ILinqToTwitterAuthorizer _linqToTwitterAuthorizer;
+        private readonly INavigationService _navigationService;
 
         public TwitterFeedViewModel(
             ILoginStore loginStore,
-            ILinqToTwitterAuthorizer linqToTwitterAuthorizer)
+            ILinqToTwitterAuthorizer linqToTwitterAuthorizer,
+            INavigationService navigationService)
         {
             _loginStoreService = loginStore;
             _linqToTwitterAuthorizer = linqToTwitterAuthorizer;
+            _navigationService = navigationService;
             _userName = "realDonaldTrump";
             _maxTweets = 3200;
             _generateNumber = 10;
@@ -77,7 +80,7 @@ namespace MarkovChainGenerator.ViewModels
             }
         }
 
-        public ICommand LoadDataCommand => new Command(async () => { await LoadTwitterData(); });
+        public ICommand BackCommand => new Command(() => { _navigationService.NavigateToMain(); });
 
         public Int32 TweetsLoaded
         {
