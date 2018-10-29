@@ -29,13 +29,8 @@ namespace MarkovChainGenerator
             var containerBuilder = new ContainerBuilder();
             containerBuilder.RegisterType<InitialViewModel>().SingleInstance();
             containerBuilder.RegisterType<TestViewModel>().SingleInstance();
-            ////containerBuilder.RegisterType<InventoryViewModel>().SingleInstance();
-            ////containerBuilder.RegisterType<InventoryCompletedViewModel>().SingleInstance();
-            ////containerBuilder.RegisterType<SmartWatchViewModel>().SingleInstance();
-            ////containerBuilder.RegisterType<SmartWatchSessionDataViewModel>().SingleInstance();
-            ////containerBuilder.RegisterType<ScanBarcodeViewModel>().SingleInstance();
-            ////containerBuilder.RegisterType<ReceiveItemViewModel>().SingleInstance();
-
+            containerBuilder.RegisterType<TwitterFeedViewModel>().SingleInstance();
+            containerBuilder.RegisterType<TwitterSearchUsersViewModel>().SingleInstance();
 
             //containerBuilder.RegisterType<UnAuthenticatedRequestService>().As<IRequestService>().SingleInstance();
             ////containerBuilder.RegisterType<BlobStorageService>().As<IBlobStorageService>().SingleInstance();

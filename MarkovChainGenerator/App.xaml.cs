@@ -16,7 +16,8 @@ namespace MarkovChainGenerator
             InitializeComponent();
             Container = AutoFacContainerBuilder.CreateContainer();
             //MainPage = new InitialView();
-            MainPage = new TestView();
+            //MainPage = new TestView();
+            MainPage = new TwitterFeedView();
         }
 
         protected override void OnStart()
